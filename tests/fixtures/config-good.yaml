@@ -1,0 +1,50 @@
+# a comment
+application:
+  var1: one
+  var2: two
+  var3: three
+  var4: four
+  var5: five
+
+# more comments
+structure:
+  house:
+    width: 60
+    length: 90
+    rooms:
+      - master bedroom
+      - master bathroom
+      - second bedroom
+      - guest bedroom
+      - hall bathroom
+      - living room
+      - kitchen
+      - linen closet
+      - utility room
+      - carport
+  apartment:
+    width: 100
+    length: 250
+    units:
+      A:
+        bed: 2
+        bath: 1
+      B:
+        bed: 3
+        bath: 2
+      C:
+        bed: 1
+        bath: 1
+      D:
+        bed: 2
+        bath: 2
+      E:
+        bed: 3
+        bath: 2
+      F:
+        bed: 2
+        bath: 1
+      G:
+        bed: 1
+        bath: 1
+

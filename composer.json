@@ -1,0 +1,22 @@
+{
+  "name": "haymaker/appconfig",
+  "description": "Application Configuration loading/container library",
+  "homepage": "https://github.com/haymaker/appconfig",
+  "license": "LGPL-2.1",
+  "authors": [
+    {
+      "name": "Mike Hayman",
+      "email": "mikehayman@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "AppConfig": "src/"
+    }
+  },
+  "version": "0.1.6",
+  "require": {
+    "php": ">=5.3.0"
+  }
+}

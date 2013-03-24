@@ -1,0 +1,16 @@
+# a comment
+application:
+		  var1: one
+  var2: two
+     var3: three
+  var4: four
+  var5: five
+
+# more comments
+database:
+      name: fail_db
+  username: hooray
+  password: no
+        host: badyaml.example.com
+
+

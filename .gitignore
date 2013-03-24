@@ -1,0 +1,10 @@
+# PHPUnit
+phpunit.xml
+tests/output/*
+
+# standard sandbox files
+test.php
+test*.yaml
+
+# vendor directory
+vendor/
