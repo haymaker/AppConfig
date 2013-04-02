@@ -3,19 +3,22 @@
  * AppConfig tests
  *
  */
-namespace Tests\AppConfig;
+namespace AppConfig;
 
-use AppConfig\AppConfig,
-    AppConfig\Loaders\YamlLoader,
+use AppConfig\Loaders\YamlLoader,
     \InvalidArgumentException,
     \Exception;
 
 class AppConfigTest extends \PHPUnit_Framework_TestCase
 {
   protected $configArray;
+  protected $obj;
+  protected $loaderStub;
 
   protected function setUp()
   {
+    $this->obj = new AppConfig();
+
     //set up and configure stub
     $this->configArray = array(
       'groupone' => array(
@@ -32,9 +35,9 @@ class AppConfigTest extends \PHPUnit_Framework_TestCase
       ),
     );
 
-    $this->stub = $this->getMock('YamlLoader', array('load'));
+    $this->loaderStub = $this->getMock('YamlLoader', array('load'));
 
-    $this->stub->expects($this->any())
+    $this->loaderStub->expects($this->any())
          ->method('load')
          ->will($this->returnValue($this->configArray));
 
@@ -45,17 +48,15 @@ class AppConfigTest extends \PHPUnit_Framework_TestCase
     // bad run - invalid loader
     try {
       $fakeLoader = "fake loader";
-      AppConfig::load($fakeLoader);
+      $this->obj->load($fakeLoader);
       $this->fail("Exception failed to raise");
-    } catch (InvalidArgumentException $e) {
-      $this->assertTrue(true);
     } catch (Exception $e) {
-      $this->fail("Incorrect exception raised: ".$e);
+      $this->assertTrue(true);
     }
 
     // good run
     try {
-      AppConfig::load($this->stub);
+      $this->obj->load($this->loaderStub);
       $this->assertTrue(true);
     } catch (Exception $e) {
       $this->fail("Good load of AppConfig failed: ".$e);
@@ -65,31 +66,30 @@ class AppConfigTest extends \PHPUnit_Framework_TestCase
 
   public function testGet()
   {
-    AppConfig::load($this->stub);
+    $this->obj->load($this->loaderStub);
 
     // good values
-    $this->assertEquals('two', AppConfig::get('groupone', 'key.two'));
-    $this->assertEquals('three', AppConfig::get('grouptwo', 'three'));
+    $this->assertEquals('two', $this->obj->get('groupone', 'key.two'));
+    $this->assertEquals('three', $this->obj->get('grouptwo', 'three'));
 
     // bad values
     try {
       // invalid key name
-      $rv = AppConfig::get('groupone', 'invalidkey');
-      var_dump($rv);
+      $rv = $this->obj->get('groupone', 'invalidkey');
       $this->fail("Exception failed to raise");
     } catch (InvalidArgumentException $e) {
       $this->assertTrue(true);
     }
     try {
       // invalid group name
-      $rv = AppConfig::get('invalidgroup', 'key.one');
+      $rv = $this->obj->get('invalidgroup', 'key.one');
       $this->fail(" Exception failed to raise");
     } catch (InvalidArgumentException $e) {
       $this->assertTrue(true);
     }
     try {
       // invalid group and invalid key
-      $rv = AppConfig::get('invalidgroup', 'invalidkey');
+      $rv = $this->obj->get('invalidgroup', 'invalidkey');
       $this->fail("Exception failed to raise");
     } catch (InvalidArgumentException $e) {
       $this->assertTrue(true);

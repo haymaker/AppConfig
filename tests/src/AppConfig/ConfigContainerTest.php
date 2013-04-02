@@ -43,6 +43,7 @@ class ConfigContainerTest extends \PHPUnit_Framework_TestCase
 
   public function testLoad()
   {
+    $this->assertInstanceOf('Appconfig\ConfigContainer', new ConfigContainer(self::$confStack));
     $this->assertEmpty(self::$c->load(self::$confStack));
   }
 
