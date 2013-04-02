@@ -6,14 +6,20 @@ This library is a PHP library for a //very basic// group-key-value application c
 
 ## Prerequisite install
 Debian Systems:
+```bash
 sudo apt-get install php5-cli php-pear php5-dev libyaml-dev
 sudo pecl install pecl/yaml
+````
 
 Depending on the Debian version, EITHER:
+```bash
 sudo sh -c "echo 'extension=yaml.so' > /etc/php5/conf.d/20-yaml.ini"
+```
 OR:
+```bash
 sudo sh -c "echo 'extension=yaml.so' > /etc/php5/mods-available/yaml.ini"
 sudo ln -s /etc/php5/mods-available/yaml.ini /etc/php5/conf.d/20-yaml.ini
+```
 
 ## Usage
 AppConfig has the ability to load configuration data from several sources, but this functionality is not quite complete.  For now, there is only one configuration loader, and that is for Yaml.
@@ -30,8 +36,15 @@ To instiantiate the object in your application, perform the following:
 
 ```php
 $configFile = __DIR__.'/path/to/config.yml';
-AppConfig::load(new YamlLoader($configFile));
-$configValue = AppConfig::get('groupname', 'key.name');
+
+// Load after object instantiation
+$config = new AppConfig();
+$config->load(new YamlLoader($configFile));
+
+// OR load during instantiation
+$config = new AppConfig(new YamlLoader($configFile));
+
+$configValue = $config->get('groupname', 'key.name');
 ```
 
 ## YAML Config File
@@ -57,7 +70,7 @@ groupname2:
 There is currently no limit to the depth of keys/values, and you can provide a shorter key to the get method and have it return an array of all the children.
 
 ```php
-$config = AppConfig::get('groupname2', 'key1.key2');
+$config = $config->get('groupname2', 'key1.key2');
 ```
 
 The above would return an associative array of:

@@ -23,6 +23,15 @@ class ConfigContainer
   private $config = array();
 
   /**
+   * Constructor
+   * @param array $config Optional configuration array
+   */
+  public function __construct(array $config = array()) {
+    if(!empty($config))
+      $this->load($config);
+  }
+
+  /**
    * Loading Method
    *
    * Method that loads the configuration into the container object.

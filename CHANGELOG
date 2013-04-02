@@ -1,0 +1,11 @@
+CHANGELOG
+----------
+- v0.2.0 -
+----------
+/ **API CHANGE** Static class definitions have been removed in favor of standard object instantiation to facilitate dependency injection and testability.  See README for new API syntax.
+/ Cleaned up readme
+
+----------
+- v0.1.6 -
+----------
+Initial public release.

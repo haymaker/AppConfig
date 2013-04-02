@@ -1,8 +1,7 @@
 <?php
 namespace AppConfig;
 
-use AppConfig\ConfigContainer,
-    \InvalidArgumentException;
+use \InvalidArgumentException;
 
 /**
  * AppConfig
@@ -18,7 +17,18 @@ class AppConfig
 {
 
   /** @type object ConfigContainer object */
-  private static $container;
+  protected $container;
+
+  /**
+   * Constructor
+   * @param object $loader Loader Object
+   */
+  public function __construct($loader = null) {
+    $this->container = new ConfigContainer();
+
+    if(!is_null($loader))
+      $this->load($loader);
+  }
 
   /**
    * Load Method
@@ -27,14 +37,13 @@ class AppConfig
    *
    * @param object Loader Object
    */
-  public static function load($loader)
+  public function load($loader)
   {
     if(!is_object($loader))
       throw new InvalidArgumentException("Loader argument is not an object.");
 
     // Initialize and load the configuration
-    self::$container = new ConfigContainer();
-    self::$container->load($loader->load());
+    $this->container->load($loader->load());
 
     // done with loader, free its memory.
     unset($loader);
@@ -50,9 +59,9 @@ class AppConfig
    * @return string Key value
    * @return boolean false if the configuration doesn't exist
    */
-  public static function get($group, $key)
+  public function get($group, $key)
   {
-      return self::$container->get($group, $key);
+      return $this->container->get($group, $key);
   }
 
   /**
@@ -61,7 +70,7 @@ class AppConfig
    * @return ConfigContainer config container object
    */
   public function getContainer() {
-    return self::$container;
+    return $this->container;
   }
 
 }
