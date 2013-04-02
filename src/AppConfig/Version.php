@@ -10,8 +10,8 @@ namespace AppConfig;
 class Version
 {
   const MAJOR = 0;
-  const MINOR = 1;
-  const PATCH = 6;
+  const MINOR = 2;
+  const PATCH = 0;
 
   public static function get() {
     return self::getVersion();
