@@ -73,27 +73,17 @@ class AppConfigTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals('three', $this->obj->get('grouptwo', 'three'));
 
     // bad values
-    try {
-      // invalid key name
-      $rv = $this->obj->get('groupone', 'invalidkey');
-      $this->fail("Exception failed to raise");
-    } catch (InvalidArgumentException $e) {
-      $this->assertTrue(true);
-    }
-    try {
-      // invalid group name
-      $rv = $this->obj->get('invalidgroup', 'key.one');
-      $this->fail(" Exception failed to raise");
-    } catch (InvalidArgumentException $e) {
-      $this->assertTrue(true);
-    }
-    try {
-      // invalid group and invalid key
-      $rv = $this->obj->get('invalidgroup', 'invalidkey');
-      $this->fail("Exception failed to raise");
-    } catch (InvalidArgumentException $e) {
-      $this->assertTrue(true);
-    }
+    // invalid key name
+    $rv = $this->obj->get('groupone', 'invalidkey');
+    $this->assertNull($rv);
+
+    // invalid group name
+    $rv = $this->obj->get('invalidgroup', 'key.one');
+    $this->assertNull($rv);
+
+    // invalid group and invalid key
+    $rv = $this->obj->get('invalidgroup', 'invalidkey');
+    $this->assertNull($rv);
   }
 
 }

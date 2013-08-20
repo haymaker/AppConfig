@@ -30,6 +30,10 @@ class ConfigContainerTest extends \PHPUnit_Framework_TestCase
         'two'   => 'two',
         'three' => 'three',
       ),
+      'booleans' => array(
+        'booltrue' => true,
+        'boolfalse' => false,
+      )
     );
 
     // set up config.
@@ -76,7 +80,6 @@ class ConfigContainerTest extends \PHPUnit_Framework_TestCase
     $this->assertFalse(self::$c->exists('groupthree', 'key.one'));
   }
 
-
   public function testGet()
   {
     try {
@@ -103,4 +106,29 @@ class ConfigContainerTest extends \PHPUnit_Framework_TestCase
     }
   }
 
+  public function testGetWithArrays()
+  {
+    $arr = array('one' => 'one', 'two' => 'two', 'three' => 'three');
+
+    $this->assertCount(3, self::$c->get('groupone', 'key'));
+
+    $this->assertEquals($arr, self::$c->get('groupone', 'key'));
+  }
+
+  public function testBooleanValues()
+  {
+    try {
+      $bool = self::$c->get('booleans', 'booltrue');
+      $this->assertTrue($bool);
+    } catch (InvalidArgumentException $e) {
+      $this->fail("Boolean true should be acceptable");
+    }
+
+    try {
+      $bool = self::$c->get('booleans', 'boolfalse');
+      $this->assertFalse($bool);
+    } catch (InvalidArgumentException $e) {
+      $this->fail("Boolean false should be acceptable");
+    }
+  }
 }

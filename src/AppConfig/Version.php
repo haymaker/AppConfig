@@ -11,7 +11,7 @@ class Version
 {
   const MAJOR = 0;
   const MINOR = 2;
-  const PATCH = 0;
+  const PATCH = 1;
 
   public static function get() {
     return self::getVersion();

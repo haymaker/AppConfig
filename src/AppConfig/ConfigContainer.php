@@ -100,7 +100,7 @@ class ConfigContainer
     if(!$this->groupExists($group))
       return false;
 
-    if($this->findVal($group, $key))
+    if(!is_null($this->findVal($group, $key)))
       return true;
 
     // default response
@@ -121,23 +121,36 @@ class ConfigContainer
 
 
   /**
-   * Get Method
+   * Get config values.
    *
-   * Get object configuration by group, key
+   * @param  string $group Group name
+   * @param  string $key   Key name
+   * @return mixed         Key value
+   * @return null          null is returned if key doesn't exist
    */
   public function get($group, $key)
   {
-    // sanitizers!
+    // cast values to string.
     $group = (string) $group;
     $key = (string) $key;
+    $resp = null;
 
-    if(!$this->groupExists($group) || !$resp = $this->findVal($group, $key))
-      throw new InvalidArgumentException("Does not exist: Group '".$group."' Key '".$key."'");
+    if($this->keyExists($group, $key))
+      $resp = $this->findVal($group, $key);
+    else
+      return null;
 
     return $resp;
   }
 
-
+  /**
+   * Find the value in the config array and return it; otherwise
+   * return null.
+   * @param  string $group Group Name
+   * @param  string $key   Key Name
+   * @return mixed         Value of config key (string, int, array, etc)
+   * @return null          Null returned if nothing exists
+   */
   private function findVal($group, $key) {
     // does the key contain periods? if so, explode it.
     if(strpos($key, '.') !== false) {
@@ -152,7 +165,7 @@ class ConfigContainer
         $k = $key[$i];
 
         if(!array_key_exists($k, $config))
-          return false;
+          return null;
 
         $config = &$config[$k];
       }
@@ -163,12 +176,12 @@ class ConfigContainer
 
     // if it's not an array, it's just a simple lookup.
     if(!array_key_exists($key, $this->config[$group]))
-      return false;
+      return null;
     else
       return $this->config[$group][$key];
 
     // catch-all, we shouldn't get here!
-    return false;
+    return null;
   }
 
 }
